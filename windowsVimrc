@@ -1,0 +1,89 @@
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/mswin.vim
+"behave mswin
+
+set diffexpr=MyDiff()
+function MyDiff()
+    let opt = '-a --binary '
+    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    let arg1 = v:fname_in
+    if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+    let arg2 = v:fname_new
+    if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+    let arg3 = v:fname_out
+    if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+    let eq = ''
+    if $VIMRUNTIME =~ ' '
+        if &sh =~ '\<cmd'
+            let cmd = '""' . $VIMRUNTIME . '\diff"'
+            let eq = '"'
+        else
+            let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+        endif
+    else
+        let cmd = $VIMRUNTIME . '\diff'
+    endif
+    silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+"Color settings"
+colors pablo
+syntax enable
+highlight CursorLine guibg=#004000
+
+"Font Settings"
+set guifont=Consolas:h11:cANSI
+
+"Features"
+set number "turn on line numbering"
+set showcmd "Shows the last vim command"
+set lazyredraw "Only redraw when necessary"
+set showmatch "highlight matching parenthesis"
+set showmode "Shows insert/visual/replace mode"
+set autochdir "vim pwd will be the directory of current file"
+set wildmenu "Helpful GUI when autocompleting"
+set cursorline "Highlights current line"
+"set cursorcolumn "Set cursorline for columns
+set expandtab "Tabs are just a bunch of spaces"
+set tabstop=4 "Pressing tabs is 4 spaces"
+set shiftwidth=4 "Indentations are 4 spaces"
+
+"Search settings"
+set hlsearch "Highlight search matches"
+set incsearch "Incremental searches"
+set ignorecase "do case insensitive searches"
+set smartcase "Capital letters are sensitive"
+" <Ctrl-l> redraws the screen and removes any search highlighting.
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+"Folding settings"
+set foldmethod=indent
+set foldenable "enable folding"
+set foldlevelstart=10 "Open all folds by default"
+set foldnestmax=10 "10 nested folds max"
+nnoremap <space> za
+
+"Leader shortcuts"
+"let mapleader="\\" "This lets you set leader character
+"Quick edit of vimrc"
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+"Quick reload of zshrc
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+"Quick reload of vimrc
+nnoremap <leader>sv :source $MYVIMRC<CR>
+" save session
+nnoremap <leader>s :mksession<CR>
+
+"Custom instructions"
+"Cmap that helps me save files when I forget to sudo"
+"Uses the :w !sudo tee % trick"
+cmap w!! w !sudo tee >/dev/null %
+"Ctrl+t to open a new tab
+nnoremap <silent> <C-t> :tabnew<CR>
+
+"Auto commands
+autocmd InsertEnter * highlight CursorLine guibg=#444400
+autocmd InsertLeave * highlight CursorLine guibg=#004000
+"autocmd VimEnter *
