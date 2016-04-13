@@ -52,6 +52,7 @@ nnoremap <leader>s :mksession<CR>
 "Cmap that helps me save files when I forget to sudo"
 "Uses the :w !sudo tee % trick"
 cmap w!! w !sudo tee >/dev/null %
+nnoremap <silent><C-t> :tabnew<CR>
 
 "Auto commands
 autocmd InsertEnter * highlight CursorLine guibg=#444400
