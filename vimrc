@@ -4,6 +4,7 @@ set clipboard=unnamed
 colors industry
 syntax enable
 highlight CursorLine guibg=#004000
+highlight Visual guibg=#003366
 
 "Font Settings"
 "set guifont=Consolas:h11:cANSI
